@@ -24,6 +24,8 @@ startTheme2 = pygame.mixer.Sound("assets/sounds/test_intro.wav")
 
 #Game state variables
 gameStarted = False
+#List that preserves information about the game
+#Act, room number, item number
 gameState = []
 roomExitCoordinates = []
 playerLocation = 5
@@ -41,12 +43,19 @@ mouseClick = False
 
 # Function to handle all in-game clicks.
 #def handleClick():
+		#Test
 
 # Function to move the game along, pull and check for "story-events".
 #def updateGame():
+#	if gameState[0] != roomMap.getLocation():
+#		gameState[0] = roomMap.getLocation()
 
 # Function to draw the game map & overall visuals
-#def drawGame():
+def drawGame():
+	roomDrawing = "room_"+ str(gameState[0]) + ".png"
+	renderedText = textFont.render(str(gameState[0]), 1, (175, 59, 59))
+	surface.blit(renderedText, (0,0))
+	surface.blit(roomDrawing, (0,0))
 
 #Function for dealing with the start screen and load up save files
 #TODO add start-screen code from main loop unto function & have it execute properly
@@ -94,8 +103,13 @@ while True:
 		
 	# Transition into new game
 	elif gameStarted is True and startSelect is True:
+		startSelect = False
 		startTheme2.stop()
-		surface.blit(introBackground, (0,0))
+		surface.blit(introBackground, (0,0)) #Loads up opening scene
+		gameState = [1,5,0] #Game state starts out as Act 1, Room 5, 0 items. The game starts officially from this point.
+
+	else:
+		drawGame()
 		
 		
 	# Keyboard/Mouse/Close-window events
