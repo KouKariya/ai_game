@@ -51,6 +51,7 @@ mouseClick = False
 #		gameState[0] = roomMap.getLocation()
 
 # Function to draw the game map & overall visuals
+#TODO fix code to allow cycle through of rooms(Bulk of work needs to happen under gameMap class.
 def drawGame():
 	roomDrawing = "room_"+ str(gameState[0]) + ".png"
 	renderedText = textFont.render(str(gameState[0]), 1, (175, 59, 59))
@@ -108,8 +109,8 @@ while True:
 		surface.blit(introBackground, (0,0)) #Loads up opening scene
 		gameState = [1,5,0] #Game state starts out as Act 1, Room 5, 0 items. The game starts officially from this point.
 
-	else:
-		drawGame()
+	#else:
+		#drawGame()
 		
 		
 	# Keyboard/Mouse/Close-window events
