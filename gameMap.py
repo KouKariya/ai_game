@@ -1,17 +1,24 @@
-import pygame
-
 class Map():
 	#gameMap class is used to store various important XY coordinates to move around within the game
 	
 	#Location or "room" that player is on. If game has just started, then starting room is 5(Living Room 1)
 	gameLocation = 5
 	
-	#List containing images of all rooms
-	#TODO create a series of lists within the "values" of the room dictionaries
-	#Add coordinate info to list within "values" of roomList list/dictionary
+	#Room-list variables that store important XY coordinates for their respective room
+	#TODO update lists with "test locations" and troubleshoot within main class
+	roomOne = [1,(0,0)]
+	roomTwo = [2,(0,0)]
+	roomThree = [3,(0,0)]
+	roomFour = [4,(0,0)]
+	roomFive = [5,(0,0)]
+	roomSix = [6,(0,0)]
+	roomSeven = [7,(0,0)]
+	roomEight = [8,(0,0)]
+	roomNine = [9,(0,0)]
 	
-	roomList = [{"room_0" : pygame.image.load("assets/images/room_0.png")},{"room_1" : pygame.image.load("assets/images/room_1.png")},{"room_2" : pygame.image.load("assets/images/room_2.png")},{"room_3" : pygame.image.load("assets/images/room_3.png")},{"room_4" : pygame.image.load("assets/images/room_4.png")},{"room_5" : pygame.image.load("assets/images/room_5.png")},{"room_6" : pygame.image.load("assets/images/room_6.png")},{"room_7" : pygame.image.load("assets/images/room_7.png")},{"room_8" : pygame.image.load("assets/images/room_8.png")}]
-		
+	#List of rooms used to cycle and navigate to
+	roomList = [roomOne, roomTwo, roomThree, roomFour, roomFive, roomSix, roomSeven, roomEight, roomNine]
+	
 	#Function to get location
 	def getLocation():
 		global gameLocation
