@@ -42,6 +42,7 @@ mouseClick = False
 # Function to handle all in-game clicks.
 #def handleClick():
 
+#TEST
 # Function to move the game along, pull and check for "story-events".
 #def updateGame():
 
