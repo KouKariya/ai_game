@@ -13,6 +13,8 @@ pygame.font.init()
 surface = pygame.display.set_mode((windowWidth,windowHeight))
 textFont = pygame.font.SysFont("monospace", 50)
 
+clock = pygame.time.Clock()
+
 pygame.display.set_caption("A.I.")
 startScreen = pygame.image.load("assets/images/start_background.png")
 introBackground = pygame.image.load("assets/images/intro_background.png")
@@ -25,13 +27,16 @@ startTheme2 = pygame.mixer.Sound("assets/sounds/test_intro.wav")
 #Game state variables
 gameStarted = False
 #List that preserves information about the game
-#Act, room number, item number
+#Act, room number, karma value
+gameAct = 1
+playerLocation = 5
+playerSanity = 0
 gameState = []
 roomExitCoordinates = []
-playerLocation = 5
+
 
 #Create Map class
-roomMap = gameMap.Map(playerLocation, pygame, surface)
+roomMap = gameMap.Map(pygame, surface)
 
 #Start Screen
 startSelect = False
@@ -39,16 +44,23 @@ loadSelect = False
 
 #Mouse Variables
 mousePosition = (0, 0)
-mouseClick = False
+mouseClick = (0, 0)
+mouseDown = False
 
+#TODO fix clicking issue
 # Function to handle all in-game clicks.
-#def handleClick():
-		#Test
+def handleClick():
+	global mousePosition, mouseDown
+	
+	if pygame.mouse.get_pressed()[0] is True:
+		mouseDown = True
+		mouseClick = pygame.mouse.get_pos()
+	elif pygame.mouse.get_pressed()[0] is False:
+		mouseDown = False
 
 # Function to move the game along, pull and check for "story-events".
 #def updateGame():
-#	if gameState[0] != roomMap.getLocation():
-#		gameState[0] = roomMap.getLocation()
+#
 
 # Function to draw the game map & overall visuals
 #TODO fix code to allow cycle through of rooms(Bulk of work needs to happen under gameMap class.
@@ -85,7 +97,7 @@ def startGame():
 		pygame.draw.rect(surface, (0,0,0), (420, 370, 180, 70), 3)
 		pygame.draw.rect(surface, (0,0,0), (420, 475, 180, 60), 3)
 			
-	if mouseClick is True and startSelect is True:
+	if mouseDown is True and startSelect is True:
 		gameStarted = True
 
 def quitGame():
@@ -96,7 +108,7 @@ while True:
 
 	mousePosition = pygame.mouse.get_pos()
 	
-	#updateGame()
+	handleClick()
 	
 	# Load up start screen
 	if gameStarted is False:
@@ -104,15 +116,18 @@ while True:
 		
 	# Transition into new game
 	elif gameStarted is True and startSelect is True:
+		gameState = [gameAct,playerLocation,playerSanity] #Game state starts out as Act 1, Room 5, 0 items. The game starts officially from this point.
 		startSelect = False
+		mouseDown = False
 		startTheme2.stop()
-		surface.blit(introBackground, (0,0)) #Loads up opening scene
-		#time.sleep(1)
+		if mouseDown is False:
+			surface.blit(introBackground, (0,0)) #Loads up opening scene
 		startTheme.stop()
-		gameState = [1,5,0] #Game state starts out as Act 1, Room 5, 0 items. The game starts officially from this point.
+		
 
 	else:
-		drawGame()
+		pygame.time.wait(5000) #Pauses the game during 'introBackground' being drawn before proceeding w/ main game
+		drawGame()#List index out of range when reached
 		
 		
 	# Keyboard/Mouse/Close-window events
@@ -124,10 +139,11 @@ while True:
 				quitGame()
 				
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			mouseClick = True
+			mouseDown = True
 	
 		if event.type == GAME_GLOBALS.QUIT:
 			quitGame()
 
 	#Refreshes the screen, updates w/ any changes
+	clock.tick(60)
 	pygame.display.update()
